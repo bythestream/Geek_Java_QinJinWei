@@ -1,0 +1,35 @@
+1) 逐条插入
+set @start=(select current_timestamp(6));
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+set @end=(select current_timestamp(6));
+select @start;
+select @end;
+
+2)基于事务的批量插入
+set @start=(select current_timestamp(6));
+start transaction;
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+insert into users values(null,"firstname","lastname","myemail@google.com");
+commit;
+set @end=(select current_timestamp(6));
+select @start;
+select @end;
+
+3)单条语句一次插入多组数据
+insert into users values (null,"firstname","lastname","myemail@google.com"),
+        		        (null,"firstname","lastname","myemail@google.com"),
+		        (null,"firstname","lastname","myemail@google.com"),
+        		        (null,"firstname","lastname","myemail@google.com"),             
+      		        (null,"firstname","lastname","myemail@google.com");
+
+        
+
+4)导入数据文件
+mysqlimport --ignore-lines=1 --fields-terminated-by=, --local -uroot -p db_test users.dat
